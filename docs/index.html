@@ -87,16 +87,22 @@
 
 
         for (let i = 0; i < frames.length; i++) {
-            ((frame, index) => {
-                timeouts.push(setTimeout(() => {
-                    console.log(index);
-                    for (let y = 0; y < frame.length; y++) {
-                        for (let x = 0; x < frame[y].length; x++) {
-                            set(`${y}-${x}`, !!frame[y][x]);
+            ((frame, prevFrame, index) => {
+                if (frame != prevFrame)
+                    timeouts.push(setTimeout(() => {
+                        console.log(index);
+                        for (let y = 0; y < frame.length; y++) {
+                            for (let x = 0; x < frame[y].length; x++) {
+                                if (!prevFrame)
+                                    set(`${y}-${x}`, !!frame[y][x]);
+                                else
+                                    if (prevFrame[y][x] != frame[y][x])
+                                        set(`${y}-${x}`, !!frame[y][x]);
+
+                            }
                         }
-                    }
-                }, (1000 / 20) * index));
-            })(frames[i], i);
+                    }, (1000 / 20) * index));
+            })(frames[i], frames[i - 1], i);
         }
         document.getElementById('audio').currentTime = 0;
         document.getElementById('audio').play();
