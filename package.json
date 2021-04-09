@@ -1,0 +1,17 @@
+{
+  "name": "bad-apple-checkbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "generate_frames.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "pngjs": "^6.0.0"
+  }
+}
