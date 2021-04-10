@@ -22,7 +22,7 @@ for (let i = 0; i < files.length; i++) {
 			const b = image.data[index + 2];
 
 			if (!pixels[y]) pixels[y] = [];
-			pixels[y][x] = +((r + g + b) / 3 > (255 * 0.8)); // Greyscale the pixel and compare it to something close to white.
+			pixels[y][x] = +((r + g + b) / 3 < (255 * 0.8)); // Greyscale the pixel and compare it to something close to white.
 		}
 	}
 	frames[i] = pixels;
