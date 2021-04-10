@@ -16,19 +16,9 @@
             document.getElementById(id).checked = state;
         }
 
-        function toggle(id) {
-            if (document.getElementById(id).checked) {
-                document.getElementById(id).checked = false;
-            }
-            else {
-                document.getElementById(id).checked = true;
-            }
-        }
-
         function uncheckAll() {
-            for (var i = 0; i < document.getElementsByTagName("input").length; i++) {
+            for (let i = 0; i < document.getElementsByTagName("input").length; i++)
                 document.getElementsByTagName("input")[i].checked = false;
-            }
         }
     </script>
     <script src='frames.js'></script>
@@ -47,20 +37,12 @@
             <audio id="audio" controls>
                 <source src="badapple.mp3" type="audio/mpeg">
             </audio>
-
-            <br />
-            <br />
-            <footer>
-                <h3><a href="https://github.com/bewuwy/bad-apple-checkbox">github repo</a></h3>
-            </footer>
         </center>
     </div>
 </body>
 
 <script>
     // Build the checkboxes dynamically.
-    const height = frames[0].length;
-    const width = frames[0][0].length;
 
     for (let y = 0; y < height; y++) {
         const div = document.createElement('div');
@@ -83,21 +65,24 @@
         for (const timeout of timeouts)
             clearTimeout(timeout);
 
+        timeouts = [];
         uncheckAll();
-
 
         for (let i = 0; i < frames.length; i++) {
             ((frame, prevFrame, index) => {
                 if (frame != prevFrame)
                     timeouts.push(setTimeout(() => {
-                        console.log(index);
-                        for (let y = 0; y < frame.length; y++) {
-                            for (let x = 0; x < frame[y].length; x++) {
-                                if (!prevFrame)
-                                    set(`${y}-${x}`, !!frame[y][x]);
-                                else
-                                    if (prevFrame[y][x] != frame[y][x])
-                                        set(`${y}-${x}`, !!frame[y][x]);
+                        for (let y = 0; y < height; y++) {
+                            for (let x = 0; x < width; x++) {
+                                const pixel = (BigInt(frame[y]) & (1n << (BigInt(x)))) != 0n;
+
+                                if (!prevFrame) {
+                                    set(`${y}-${x}`, pixel);
+                                } else {
+                                    const prevFramePixel = (BigInt(prevFrame[y]) & (1n << (BigInt(x)))) != 0n;
+                                    if (prevFramePixel != pixel)
+                                        set(`${y}-${x}`, pixel);
+                                }
 
                             }
                         }
